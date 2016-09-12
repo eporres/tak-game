@@ -20,9 +20,27 @@ namespace TakGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        BoardView mBoardView;
+
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += MainWindow_Loaded;
+            SizeChanged += MainWindow_SizeChanged;
         }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (mBoardView == null) return;
+            mBoardView.Render(BoardCanvas.ActualHeight, BoardCanvas.ActualWidth);
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var board = new Board(6);
+            mBoardView = new BoardView(board, BoardCanvas);
+            mBoardView.Render(BoardCanvas.ActualHeight, BoardCanvas.ActualWidth);
+        }
+
     }
 }
